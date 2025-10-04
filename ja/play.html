@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学園物語</title>
+    <link rel="icon" type="image/svg+xml" href="logo.svg">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        @font-face {
+            font-family: 'mplus_hzk_12';
+            src: url('fonts/mplus_hzk_12.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- オープニングアニメーション -->
+    <div id="intro-animation" class="intro-animation">
+        <img src="assets/img/Ui/Logo.png" alt="Logo" style="display: none;">
+        <div id="language-selection" class="language-selection" style="display: none;">
+            <div class="language-title">言語を選択 / Choose Language / 选择语言</div>
+            <div class="language-buttons">
+                <button id="lang-zh" class="language-btn">中文</button>
+                <button id="lang-en" class="language-btn">English</button>
+                <button id="lang-ja" class="language-btn">日本語</button>
+            </div>
+        </div>
+    </div>
+    <div id="game-container" class="hidden">
+        <!-- スタート画面 -->
+        <div id="start-screen" class="screen">
+            <h1 class="pixel-title" id="game-title">学園物語</h1>
+            <div class="start-options">
+                <div class="name-input">
+                    <label for="player-name">あなたの名前:</label>
+                    <input type="text" id="player-name" placeholder="名前を入力...">
+                </div>
+                <div class="gender-selection">
+                    <p>性別を選択:</p>
+                    <div class="gender-options">
+                        <button id="male-option" class="gender-btn">男性</button>
+                        <button id="female-option" class="gender-btn">女性</button>
+                    </div>
+                </div>
+
+                <button id="start-game" class="start-btn" disabled>ゲーム開始</button>
+                <button id="about-btn" class="about-btn">概要</button>
+            </div>
+            <div class="game-description">
+                <p>ある普通の夜間自習後、あなたは学校に閉じ込められていることに気づく...</p>
+                <p>夜が更けるにつれて、学校では不気味なことが起こり始める...</p>
+            </div>
+        </div>
+
+        <!-- チャプター選択画面 -->
+        <div id="chapter-select-screen" class="screen hidden">
+            <button id="back-to-main" class="back-btn">メイン画面に戻る</button>
+            <h1 class="pixel-title">チャプター選択</h1>
+            <div class="chapter-list">
+                <div class="chapter-item available" data-chapter="prologue">
+                    <h2>序章-「夜間自習後」</h2>
+                    <p>ある普通の夜間自習後、あなたは学校に閉じ込められていることに気づく...</p>
+                </div>
+                <div class="chapter-item locked" data-chapter="chapter1">
+                    <h2>第一章-「幽霊との出会い」<span class="lock-icon">🔒</span></h2>
+                    <p>学校の神秘的な事件を探検し、隠された秘密を解き明かす。序章クリア後解除。</p>
+                </div>
+                <div class="chapter-item locked" data-chapter="chapter2">
+                    <h2>第二章-「寮の幽霊」<span class="lock-icon">🔒</span></h2>
+                    <p>最初の友人と出会い、学校に関するさらなる秘密を発見する。第一章クリア後解除。</p>
+                </div>
+                <div class="chapter-item locked" data-chapter="chapter3">
+                    <h2>第三章-「永遠の夜の陥落」<span class="lock-icon">🔒</span></h2>
+                    <p>学校の最終的な秘密を暴き、真実に直面する。第二章クリア後解除。</p>
+                </div>
+                <div class="chapter-item locked" data-chapter="chapter4">
+                    <h2>第四章-「輪廻再開」<span class="lock-icon">🔒</span></h2>
+                    <p>学校から脱出した後も、呪いはあなたを追い続ける。第三章クリア後解除。</p>
+                </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ゲーム画面 -->
+        <div id="game-screen" class="screen hidden">
+            <div id="game-header">
+                <div id="player-info">
+                    <span id="player-name-display"></span> | <span id="player-gender-display"></span>
+                </div>
+                <div id="game-time">時間: <span id="current-time">21:00</span></div>
+            </div>
+            <div id="game-container-inner">
+                <div id="game-map"></div>
+                <div id="game-inventory">
+                    <div class="inventory-title">🎒 所持品</div>
+                    <div id="inventory-items"></div>
+                </div>
+            </div>
+            <div id="game-actions"></div>
+            <div id="game-dialogue">
+                <div id="dialogue-text"></div>
+                <div id="dialogue-choices"></div>
+            </div>
+        </div>
+
+        <!-- 死亡画面 -->
+
+        <!-- 概要ポップアップ -->
+        <div id="about-modal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>🏆 作品概要</h2>
+                    <button id="close-about" class="close-btn">×</button>
+                </div>
+                <div class="modal-body">
+                    <p>本作品は2025年国庆Vibe創作大赛に参加しています</p>
+                    <p>参加者： 坦率的血翼蝠5801</p>
+                    <p>バージョン： Version <span id="version-number">重生版1.0.0.0</span></p>
+                    <p>使用IDE： Trae CN</p>
+                    <p>呼び出しAIモデル：</p>
+                    <p>DeepSeekR1、Kimi-K2、</p>
+                    <p>Qwen-3-Coder、Doubao-Seed-1.6</p>
+                    <p>特別感謝： 神島实验室</p>
+                </div>
+            </div>
+        </div>
+        <div id="death-screen" class="screen hidden">
+            <h2 class="death-title">あなたは不幸に見舞われた...</h2>
+            <div id="death-message"></div>
+            <button id="restart-game" class="restart-btn">再開する</button>
+        </div>
+
+        <!-- リザルト画面 -->
+        <div id="result-screen" class="screen hidden">
+            <h1 class="pixel-title">クリアおめでとう!</h1>
+            <div class="result-info">
+                <p>チャプター: <span id="result-chapter"></span></p>
+                <p>クリア時間: <span id="result-time"></span></p>
+            </div>
+            <div class="result-actions">
+                <button id="next-chapter-btn" class="start-btn">次のチャプター</button>
+                <button id="back-to-chapter-select" class="restart-btn">チャプター選択に戻る</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="GameJs/Chapter1.js"></script>
+    <script src="GameJs/Chapter2.js"></script>
+    <script src="GameJs/Chapter3.js"></script>
+    <script src="GameJs/Chapter4.js"></script>
+    
+    <script src="GameJs/Chapter0.js"></script>
+    <script src="GameJs/CustomChapter.js"></script>
+
+    <!-- ゲームバージョン番号定義 -->
+    <script>
+        // ゲームバージョン番号変数、統一修正のため
+        const GAME_VERSION = "R2-1.0.1.1";
+    </script>
+
+    <!-- サウンドエフェクト要素 -->
+    <audio id="intro-audio" src="assets/audio/Ahahahaha.mp3" preload="auto"></audio>
+    <audio id="horror-ding" src="assets/audio/Ding-Horror.mp3" preload="auto"></audio>
+    <audio id="horror-up" src="assets/audio/HorrorUp.mp3" preload="auto"></audio>
+    <audio id="ghost-ha" src="assets/audio/GhostHa.mp3" preload="auto"></audio>
+    <audio id="background-music" src="assets/audio/GhostSing(Sample).mp3" preload="auto" loop></audio>
+    <audio id="long-scream" src="assets/audio/LongScream.mp3" preload="auto"></audio>
+
+    <!-- サウンド通知ポップアップ -->
+    <div id="audio-notice-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3 id="audio-notice-version">⚠️ Version R2-1.0.1.1</h3>
+            <p>バージョン 1.1.5.1 から、サウンドエフェクトサポートを追加しました。</p> <!--注：この1.1.5.1はリアルタイム更新されるバージョン番号ではなく、バージョン番号を修正する際にこの行は変更できません-->
+            <p>本バージョンは大量のホラー要素を含み、一部不快に感じる可能性のある画像、音声、テキストが含まれています。</p>
+            <p>生理的不快感を感じた場合は、直ちにゲームを終了してください。さもなければ@坦率的血翼蝠5801は一切の責任を負いません</p>
+            <p>ゲーム中に一部のボタンがクリックできない場合、そのボタンはまだアンロックされていません。両方ともクリックできない場合は、Ctrl+RまたはF5でページを更新してみてください（アンロック済みのステージは保存されます！）</p>
+            <button id="audio-notice-confirm" class="modal-btn">了解しました</button>
+        </div>
+    </div>
+
+    <style>
+        /* ポップアップスタイル */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: #2a2a2a;
+            border: 2px solid #555;
+            border-radius: 8px;
+            padding: 2rem;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .modal-btn {
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background-color: #ff4d4d;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn:hover {
+            background-color: #ff1a1a;
+        }
+
+        /* オープニングアニメーションスタイル */
+        .intro-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            animation: fadeIn 1.5s forwards;
+        }
+
+        .intro-animation img {
+            max-width: 80%;
+            max-height: 80%;
+            opacity: 0;
+        }
+
+        .language-selection {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .language-title {
+            color: white;
+            font-size: 20px;
+            text-align: center;
+            font-family: 'mplus_hzk_12', sans-serif;
+            text-shadow: 0 0 10px #ff4d4d;
+            margin-bottom: 30px;
+            animation: pulse 1.5s infinite;
+            position: relative;
+            left: 0;
+            right: 0;
+            margin: 0 auto 30px;
+            max-width: 100%;
+            display: block;
+        }
+        
+        .language-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+        
+        .language-btn {
+            padding: 15px 40px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 2px solid #ff4d4d;
+            color: white;
+            font-size: 18px;
+            font-family: 'mplus_hzk_12', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 200px;
+            border-radius: 4px;
+        }
+        
+        .language-btn:hover {
+            background-color: #ff4d4d;
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 77, 77, 0.7);
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.7;
+                transform: scale(1.05);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes stay {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        @keyframes fadeInImg {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background-color: #2a2a2a;
+            border: 2px solid #555;
+            border-radius: 8px;
+            padding: 2rem;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(255, 77, 77, 0.3);
+        }
+
+        .modal-content h3 {
+            color: #ff4d4d;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .modal-content p {
+            color: #ccc;
+            margin-bottom: 0.8rem;
+            line-height: 1.5;
+        }
+
+        .modal-btn {
+            margin-top: 1.5rem;
+            padding: 0.8rem 2rem;
+            background-color: #333;
+            border: 2px solid #555;
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .modal-btn:hover {
+            background-color: #555;
+            border-color: #ff4d4d;
+            transform: scale(1.05);
+        }
+
+
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+
+    <script>
+        // cookieから言語設定を読み取る
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+
+        // オープニングアニメーションロジック
+        document.addEventListener('DOMContentLoaded', function () {
+            const introAnimation = document.getElementById('intro-animation');
+            const gameContainer = document.getElementById('game-container');
+            const audioModal = document.getElementById('audio-notice-modal');
+            const introAudio = document.getElementById('intro-audio');
+            const logoImg = introAnimation.querySelector('img');
+            const languageSelection = document.getElementById('language-selection');
+            let gameStarted = false;
+
+            // cookieからユーザー選択言語を取得
+            let selectedLanguage = getCookie('gameLanguage') || 'zh'; // デフォルト中国語
+
+            // 言語選択処理関数
+            function selectLanguage(lang) {
+                if (gameStarted) return;
+                gameStarted = true;
+                
+                // ユーザー選択言語を保存
+                selectedLanguage = lang;
+                document.cookie = `gameLanguage=${lang}; path=/; max-age=31536000`; // 1年有効期限
+                
+                // 言語選択画面を非表示
+                languageSelection.style.display = 'none';
+
+                // logoを表示しアニメーション
+                logoImg.style.display = 'block';
+                setTimeout(() => {
+                    logoImg.style.animation = 'fadeInImg 1.5s forwards 0.5s';
+                }, 100);
+
+                // バージョン番号表示を更新
+                document.addEventListener('DOMContentLoaded', function () {
+                    // バージョン番号要素を取得
+                    const gameTitle = document.getElementById('game-title');
+                    const versionNumber = document.getElementById('version-number');
+                    const audioNoticeVersion = document.getElementById('audio-notice-version');
+
+                    // バージョン番号を更新
+                    if (gameTitle) {
+                        gameTitle.textContent = `学園物語(Version ${GAME_VERSION})`;
+                    }
+                    if (versionNumber) {
+                        versionNumber.textContent = GAME_VERSION;
+                    }
+                    if (audioNoticeVersion) {
+                        audioNoticeVersion.textContent = `⚠️ Version ${GAME_VERSION}`;
+                    }
+                });
+
+                // オープニング音声を再生
+                introAudio.play().catch(function (error) {
+                    console.log('音声再生失敗:', error);
+                });
+
+                // アニメーション総時間: 1.5s(fadeIn) + 2s(stay) = 3.5s
+                setTimeout(function () {
+                    // 音声再生を停止
+                    introAudio.pause();
+                    introAudio.currentTime = 0;
+                    // フェードアウトアニメーションを使用してlogoを非表示
+                    introAnimation.style.animation = 'fadeOut 1.5s forwards';
+
+                    // 遅延を削除し、logoが消え始めると同時にメインコンテナとポップアップを表示
+                    gameContainer.classList.remove('hidden');
+                    audioModal.classList.remove('hidden');
+                     
+                    // 言語設定を適用（必要に応じて拡張可能）
+                    applyLanguageSettings(selectedLanguage);
+                }, 3500);
+            }
+
+            // 言語設定を適用する関数
+            function applyLanguageSettings(lang) {
+                console.log('言語設定を適用:', lang);
+                // 必要に応じて、より多くの言語切り替え機能を実装できます
+                // 例えばゲーム画面のテキスト、ヒントなどを修正
+            }
+
+            // ページ読み込み時に直接ゲームを開始（index.htmlで言語を選択済みのため）
+            setTimeout(() => {
+                selectLanguage(selectedLanguage);
+            }, 100);
+        });
+        // ポップアップロジック
+        document.addEventListener('DOMContentLoaded', function () {
+            const audioModal = document.getElementById('audio-notice-modal');
+            const audioConfirmBtn = document.getElementById('audio-notice-confirm');
+
+            // サウンド通知ポップアップロジック
+            audioConfirmBtn.addEventListener('click', function () {
+                audioModal.classList.add('hidden');
+            });
+
+            // ポップアップ外部をクリックして閉じる
+            audioModal.addEventListener('click', function (e) {
+                if (e.target === audioModal) {
+                    audioModal.classList.add('hidden');
+                }
+            });
+
+            // 背景音楽要素を取得
+            const backgroundMusic = document.getElementById('background-music');
+
+            // ゲーム開始ボタンロジック
+            const startGameBtn = document.getElementById('start-game');
+            const ghostHaAudio = document.getElementById('ghost-ha');
+
+            startGameBtn.addEventListener('click', function () {
+                // ghost-ha音声を再生
+                ghostHaAudio.play().catch(function (error) {
+                    console.error('音声再生失敗:', error);
+                });
+            });
+
+            // ゲーム画面表示/非表示イベントを監視し、背景音楽を制御
+            const gameScreen = document.getElementById('game-screen');
+            const startScreen = document.getElementById('start-screen');
+            const chapterSelectScreen = document.getElementById('chapter-select-screen');
+            const deathScreen = document.getElementById('death-screen');
+            const resultScreen = document.getElementById('result-screen');
+
+            // 現在どの画面が表示されているかチェック
+            function checkScreenVisibility() {
+                if (!gameScreen.classList.contains('hidden')) {
+                    // ゲーム画面表示、背景音楽を再生
+                    backgroundMusic.play().catch(function (error) {
+                        console.error('背景音楽再生失敗:', error);
+                    });
+                } else {
+                    // 非ゲーム画面表示、背景音楽を一時停止
+                    backgroundMusic.pause();
+                }
+            }
+
+            // 初期チェック
+            checkScreenVisibility();
+
+            // 画面切り替えが可能なすべてのボタンにイベントリスナーを追加
+            document.querySelectorAll('button').forEach(button => {
+                button.addEventListener('click', function () {
+                    // 遅延チェック、画面が切り替わったことを確認
+                    setTimeout(checkScreenVisibility, 100);
+                });
+            });
+
+            // 死亡画面表示イベントを監視
+            const observer = new MutationObserver(function (mutations) {
+                mutations.forEach(function (mutation) {
+                    if (mutation.attributeName === 'class') {
+                        checkScreenVisibility();
+                    }
+                });
+            });
+
+            // すべての画面のclass変化を監視
+            [gameScreen, startScreen, chapterSelectScreen, deathScreen, resultScreen].forEach(screen => {
+                observer.observe(screen, { attributes: true });
+            });
+        });
+
+        // 概要ボタンとポップアップロジック
+        function setupAboutModal() {
+            const aboutBtn = document.getElementById('about-btn');
+            const aboutModal = document.getElementById('about-modal');
+            const closeAboutBtn = document.getElementById('close-about');
+
+            if (!aboutBtn || !aboutModal || !closeAboutBtn) {
+                console.error('概要ボタンまたはポップアップ要素が見つかりません');
+                return;
+            }
+
+            // 概要ポップアップを開く
+            aboutBtn.addEventListener('click', function () {
+                console.log('概要ボタンがクリックされました');
+                aboutModal.classList.remove('hidden');
+                aboutModal.style.display = 'flex';
+            });
+
+            // 概要ポップアップを閉じる
+            closeAboutBtn.addEventListener('click', function () {
+                aboutModal.style.display = 'none';
+                aboutModal.classList.add('hidden');
+            });
+
+            // ポップアップ外部をクリックして閉じる
+            aboutModal.addEventListener('click', function (event) {
+                if (event.target === aboutModal) {
+                    aboutModal.style.display = 'none';
+                    aboutModal.classList.add('hidden');
+                }
+            });
+        }
+
+        // DOMが完全に読み込まれた後にポップアップを設定することを確認
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', setupAboutModal);
+        } else {
+            setupAboutModal();
+        }
+    </script>
+</body>
+
+</html>
