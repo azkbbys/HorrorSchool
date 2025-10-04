@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Horror</title>
+    <link rel="icon" type="image/svg+xml" href="logo.svg">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        @font-face {
+            font-family: 'mplus_hzk_12';
+            src: url('fonts/mplus_hzk_12.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Opening Animation -->
+    <div id="intro-animation" class="intro-animation">
+        <img src="assets/img/Ui/Logo.png" alt="Logo" style="display: none;">
+        <div id="language-selection" class="language-selection" style="display: none;">
+            <div class="language-title">选择语言 / Choose Language / 言語を選択</div>
+            <div class="language-buttons">
+                <button id="lang-zh" class="language-btn">中文</button>
+                <button id="lang-en" class="language-btn">English</button>
+                <button id="lang-ja" class="language-btn">日本語</button>
+            </div>
+        </div>
+    </div>
+    <div id="game-container" class="hidden">
+        <!-- Start Screen -->
+        <div id="start-screen" class="screen">
+            <h1 class="pixel-title" id="game-title">Campus Horror</h1>
+            <div class="start-options">
+                <div class="name-input">
+                    <label for="player-name">Your Name:</label>
+                    <input type="text" id="player-name" placeholder="Enter your name...">
+                </div>
+                <div class="gender-selection">
+                    <p>Select Gender:</p>
+                    <div class="gender-options">
+                        <button id="male-option" class="gender-btn">Male</button>
+                        <button id="female-option" class="gender-btn">Female</button>
+                    </div>
+                </div>
+
+                <button id="start-game" class="start-btn" disabled>Start Game</button>
+                <button id="about-btn" class="about-btn">About</button>
+            </div>
+            <div class="game-description">
+                <p>After an ordinary evening self-study, you find yourself trapped in the school...</p>
+                <p>As night falls, strange things begin to happen on campus...</p>
+            </div>
+        </div>
+
+        <!-- Chapter Selection Screen -->
+        <div id="chapter-select-screen" class="screen hidden">
+            <button id="back-to-main" class="back-btn">Back to Main Menu</button>
+            <h1 class="pixel-title">Select Chapter</h1>
+            <div class="chapter-list">
+                <div class="chapter-item available" data-chapter="prologue">
+                    <h2>Prologue - "After Evening Self-Study"</h2>
+                    <p>After an ordinary evening self-study, you find yourself trapped in the school...</p>
+                </div>
+                <div class="chapter-item locked" data-chapter="chapter1">
+                    <h2>Chapter 1 - "First Encounter"<span class="lock-icon">🔒</span></h2>
+                    <p>Explore the school's mysterious events and uncover hidden secrets. Unlocks after completing the Prologue.</p>
+                </div>
+                <div class="chapter-item locked" data-chapter="chapter2">
+                    <h2>Chapter 2 - "Dormitory Phantom"<span class="lock-icon">🔒</span></h2>
+                    <p>Meet your first friend and discover more about the school's secrets. Unlocks after completing Chapter 1.</p>
+                </div>
+                <div class="chapter-item locked" data-chapter="chapter3">
+                    <h2>Chapter 3 - "Eternal Night"<span class="lock-icon">🔒</span></h2>
+                    <p>Uncover the school's final secret and face the truth. Unlocks after completing Chapter 2.</p>
+                </div>
+                <div class="chapter-item locked" data-chapter="chapter4">
+                    <h2>Chapter 4 - "Cycle Restart"<span class="lock-icon">🔒</span></h2>
+                    <p>After escaping the school, the curse still follows you. Unlocks after completing Chapter 3.</p>
+                </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="game-screen" class="screen hidden">
+            <div id="game-header">
+                <div id="player-info">
+                    <span id="player-name-display"></span> | <span id="player-gender-display"></span>
+                </div>
+                <div id="game-time">Time: <span id="current-time">21:00</span></div>
+            </div>
+            <div id="game-container-inner">
+                <div id="game-map"></div>
+                <div id="game-inventory">
+                    <div class="inventory-title">🎒 Backpack</div>
+                    <div id="inventory-items"></div>
+                </div>
+            </div>
+            <div id="game-actions"></div>
+            <div id="game-dialogue">
+                <div id="dialogue-text"></div>
+                <div id="dialogue-choices"></div>
+            </div>
+        </div>
+
+        <!-- Death Screen -->
+
+        <!-- About Popup -->
+        <div id="about-modal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>🏆 About This Work</h2>
+                    <button id="close-about" class="close-btn">×</button>
+                </div>
+                <div class="modal-body">
+                    <p>This work participates in the 2025 National Day Vibe Creation Contest</p>
+                    <p>Participant: Frank BloodwingBat5801</p>
+                    <p>Version: Version <span id="version-number">Rebirth Edition 1.0.0.0</span></p>
+                    <p>IDE Used: Trae CN</p>
+                    <p>AI Models Called:</p>
+                    <p>DeepSeekR1, Kimi-K2,</p>
+                    <p>Qwen-3-Coder, Doubao-Seed-1.6</p>
+                    <p>Special Thanks: Kamishima Laboratory</p>
+                </div>
+            </div>
+        </div>
+        <div id="death-screen" class="screen hidden">
+            <h2 class="death-title">You have encountered misfortune...</h2>
+            <div id="death-message"></div>
+            <button id="restart-game" class="restart-btn">Restart</button>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="result-screen" class="screen hidden">
+            <h1 class="pixel-title">Congratulations on clearing the level!</h1>
+            <div class="result-info">
+                <p>Chapter: <span id="result-chapter"></span></p>
+                <p>Clear Time: <span id="result-time"></span></p>
+            </div>
+            <div class="result-actions">
+                <button id="next-chapter-btn" class="start-btn">Next Chapter</button>
+                <button id="back-to-chapter-select" class="restart-btn">Back to Chapter Select</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="GameJs/Chapter1.js"></script>
+    <script src="GameJs/Chapter2.js"></script>
+    <script src="GameJs/Chapter3.js"></script>
+    <script src="GameJs/Chapter4.js"></script>
+    
+    <script src="GameJs/Chapter0.js"></script>
+    <script src="GameJs/CustomChapter.js"></script>
+
+    <!-- Game Version Definition -->
+    <script>
+        // Game version variable for easy unified modification
+        const GAME_VERSION = "R2-1.0.1.1";
+    </script>
+
+    <!-- Audio Elements -->
+    <audio id="intro-audio" src="assets/audio/Ahahahaha.mp3" preload="auto"></audio>
+    <audio id="horror-ding" src="assets/audio/Ding-Horror.mp3" preload="auto"></audio>
+    <audio id="horror-up" src="assets/audio/HorrorUp.mp3" preload="auto"></audio>
+    <audio id="ghost-ha" src="assets/audio/GhostHa.mp3" preload="auto"></audio>
+    <audio id="background-music" src="assets/audio/GhostSing(Sample).mp3" preload="auto" loop></audio>
+    <audio id="long-scream" src="assets/audio/LongScream.mp3" preload="auto"></audio>
+
+    <!-- Audio Notice Popup -->
+    <div id="audio-notice-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3 id="audio-notice-version">⚠️ Version R2-1.0.1.1</h3>
+            <p>Starting from version 1.1.5.1, we have added audio effect support.</p> <!--Note: This 1.1.5.1 is not a real-time updated version number, this line cannot be changed when modifying the version number-->
+            <p>This version contains a large number of horror elements, which may include images, audio, and text that some people may find disturbing.</p>
+            <p>If you experience physical discomfort, please exit the game immediately. Otherwise, @Frank BloodwingBat5801 assumes no responsibility.</p>
+            <p>If some buttons in the game are unresponsive, it means they are not yet unlocked. If both buttons are unresponsive, try refreshing the webpage with Ctrl+R or F5 (your unlocked levels will be saved!).</p>
+            <button id="audio-notice-confirm" class="modal-btn">I Understand</button>
+        </div>
+    </div>
+
+    <style>
+        /* Popup Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: #2a2a2a;
+            border: 2px solid #555;
+            border-radius: 8px;
+            padding: 2rem;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .modal-btn {
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background-color: #ff4d4d;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn:hover {
+            background-color: #ff1a1a;
+        }
+
+        /* Opening Animation Styles */
+        .intro-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            animation: fadeIn 1.5s forwards;
+        }
+
+        .intro-animation img {
+            max-width: 80%;
+            max-height: 80%;
+            opacity: 0;
+        }
+
+        .language-selection {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .language-title {
+            color: white;
+            font-size: 20px;
+            text-align: center;
+            font-family: 'mplus_hzk_12', sans-serif;
+            text-shadow: 0 0 10px #ff4d4d;
+            margin-bottom: 30px;
+            animation: pulse 1.5s infinite;
+            position: relative;
+            left: 0;
+            right: 0;
+            margin: 0 auto 30px;
+            max-width: 100%;
+            display: block;
+        }
+        
+        .language-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+        
+        .language-btn {
+            padding: 15px 40px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border: 2px solid #ff4d4d;
+            color: white;
+            font-size: 18px;
+            font-family: 'mplus_hzk_12', sans-serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 200px;
+            border-radius: 4px;
+        }
+        
+        .language-btn:hover {
+            background-color: #ff4d4d;
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255, 77, 77, 0.7);
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.7;
+                transform: scale(1.05);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes stay {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        @keyframes fadeInImg {
+            from {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background-color: #2a2a2a;
+            border: 2px solid #555;
+            border-radius: 8px;
+            padding: 2rem;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 0 20px rgba(255, 77, 77, 0.3);
+        }
+
+        .modal-content h3 {
+            color: #ff4d4d;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .modal-content p {
+            color: #ccc;
+            margin-bottom: 0.8rem;
+            line-height: 1.5;
+        }
+
+        .modal-btn {
+            margin-top: 1.5rem;
+            padding: 0.8rem 2rem;
+            background-color: #333;
+            border: 2px solid #555;
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .modal-btn:hover {
+            background-color: #555;
+            border-color: #ff4d4d;
+            transform: scale(1.05);
+        }
+
+
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+
+    <script>
+        // Read language settings from cookie
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+
+        // Opening Animation Logic
+        document.addEventListener('DOMContentLoaded', function () {
+            const introAnimation = document.getElementById('intro-animation');
+            const gameContainer = document.getElementById('game-container');
+            const audioModal = document.getElementById('audio-notice-modal');
+            const introAudio = document.getElementById('intro-audio');
+            const logoImg = introAnimation.querySelector('img');
+            const languageSelection = document.getElementById('language-selection');
+            let gameStarted = false;
+
+            // Get user-selected language from cookie
+            let selectedLanguage = getCookie('gameLanguage') || 'zh'; // Default to Chinese
+
+            // Language selection handler
+            function selectLanguage(lang) {
+                if (gameStarted) return;
+                gameStarted = true;
+                
+                // Store user-selected language
+                selectedLanguage = lang;
+                document.cookie = `gameLanguage=${lang}; path=/; max-age=31536000`; // One year validity
+                
+                // Hide language selection interface
+                languageSelection.style.display = 'none';
+
+                // Show and animate logo
+                logoImg.style.display = 'block';
+                setTimeout(() => {
+                    logoImg.style.animation = 'fadeInImg 1.5s forwards 0.5s';
+                }, 100);
+
+                // Update version display
+                document.addEventListener('DOMContentLoaded', function () {
+                    // Get version elements
+                    const gameTitle = document.getElementById('game-title');
+                    const versionNumber = document.getElementById('version-number');
+                    const audioNoticeVersion = document.getElementById('audio-notice-version');
+
+                    // Update version
+                    if (gameTitle) {
+                        gameTitle.textContent = `Campus Horror(Version ${GAME_VERSION})`;
+                    }
+                    if (versionNumber) {
+                        versionNumber.textContent = GAME_VERSION;
+                    }
+                    if (audioNoticeVersion) {
+                        audioNoticeVersion.textContent = `⚠️ Version ${GAME_VERSION}`;
+                    }
+                });
+
+                // Play opening audio
+                introAudio.play().catch(function (error) {
+                    console.log('Audio playback failed:', error);
+                });
+
+                // Total animation duration: 1.5s(fadeIn) + 2s(stay) = 3.5s
+                setTimeout(function () {
+                    // Stop audio playback
+                    introAudio.pause();
+                    introAudio.currentTime = 0;
+                    // Use fade-out animation to hide logo
+                    introAnimation.style.animation = 'fadeOut 1.5s forwards';
+
+                    // Remove delay, show main container and popup simultaneously when logo starts disappearing
+                    gameContainer.classList.remove('hidden');
+                    audioModal.classList.remove('hidden');
+                     
+                    // Apply language settings (can be extended as needed)
+                    applyLanguageSettings(selectedLanguage);
+                }, 3500);
+            }
+
+            // Function to apply language settings
+            function applyLanguageSettings(lang) {
+                console.log('Applying language settings:', lang);
+                // More language switching functionality can be implemented here as needed
+                // For example, modifying text, prompts, etc. on the game interface
+            }
+
+            // Start game directly when page loads (since we've already selected language in index.html)
+            setTimeout(() => {
+                selectLanguage(selectedLanguage);
+            }, 100);
+        });
+        // Popup Logic
+        document.addEventListener('DOMContentLoaded', function () {
+            const audioModal = document.getElementById('audio-notice-modal');
+            const audioConfirmBtn = document.getElementById('audio-notice-confirm');
+
+            // Audio notice popup logic
+            audioConfirmBtn.addEventListener('click', function () {
+                audioModal.classList.add('hidden');
+            });
+
+            // Close popup when clicking outside
+            audioModal.addEventListener('click', function (e) {
+                if (e.target === audioModal) {
+                    audioModal.classList.add('hidden');
+                }
+            });
+
+            // Get background music element
+            const backgroundMusic = document.getElementById('background-music');
+
+            // Start game button logic
+            const startGameBtn = document.getElementById('start-game');
+            const ghostHaAudio = document.getElementById('ghost-ha');
+
+            startGameBtn.addEventListener('click', function () {
+                // Play ghost-ha audio
+                ghostHaAudio.play().catch(function (error) {
+                    console.error('Audio playback failed:', error);
+                });
+            });
+
+            // Listen for game screen show/hide events to control background music
+            const gameScreen = document.getElementById('game-screen');
+            const startScreen = document.getElementById('start-screen');
+            const chapterSelectScreen = document.getElementById('chapter-select-screen');
+            const deathScreen = document.getElementById('death-screen');
+            const resultScreen = document.getElementById('result-screen');
+
+            // Check which interface is currently displayed
+            function checkScreenVisibility() {
+                if (!gameScreen.classList.contains('hidden')) {
+                    // Game screen displayed, play background music
+                    backgroundMusic.play().catch(function (error) {
+                        console.error('Background music playback failed:', error);
+                    });
+                } else {
+                    // Non-game screen displayed, pause background music
+                    backgroundMusic.pause();
+                }
+            }
+
+            // Initial check
+            checkScreenVisibility();
+
+            // Add event listeners for all buttons that might switch interfaces
+            document.querySelectorAll('button').forEach(button => {
+                button.addEventListener('click', function () {
+                    // Delayed check to ensure interface has switched
+                    setTimeout(checkScreenVisibility, 100);
+                });
+            });
+
+            // Listen for death screen display events
+            const observer = new MutationObserver(function (mutations) {
+                mutations.forEach(function (mutation) {
+                    if (mutation.attributeName === 'class') {
+                        checkScreenVisibility();
+                    }
+                });
+            });
+
+            // Listen for class changes on all screens
+            [gameScreen, startScreen, chapterSelectScreen, deathScreen, resultScreen].forEach(screen => {
+                observer.observe(screen, { attributes: true });
+            });
+        });
+
+        // About button and popup logic
+        function setupAboutModal() {
+            const aboutBtn = document.getElementById('about-btn');
+            const aboutModal = document.getElementById('about-modal');
+            const closeAboutBtn = document.getElementById('close-about');
+
+            if (!aboutBtn || !aboutModal || !closeAboutBtn) {
+                console.error('Cannot find about button or popup elements');
+                return;
+            }
+
+            // Open about popup
+            aboutBtn.addEventListener('click', function () {
+                console.log('About button clicked');
+                aboutModal.classList.remove('hidden');
+                aboutModal.style.display = 'flex';
+            });
+
+            // Close about popup
+            closeAboutBtn.addEventListener('click', function () {
+                aboutModal.style.display = 'none';
+                aboutModal.classList.add('hidden');
+            });
+
+            // Close popup when clicking outside
+            aboutModal.addEventListener('click', function (event) {
+                if (event.target === aboutModal) {
+                    aboutModal.style.display = 'none';
+                    aboutModal.classList.add('hidden');
+                }
+            });
+        }
+
+        // Ensure DOM is fully loaded before setting up popup
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', setupAboutModal);
+        } else {
+            setupAboutModal();
+        }
+    </script>
+</body>
+
+</html>
