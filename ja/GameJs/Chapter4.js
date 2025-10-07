@@ -371,22 +371,22 @@ class Chapter4 {
         ]);
     }
 
-    // 箱を開けて闇の神器を入手
+    // 箱を開けて暗黒の神器を入手
     openBox() {
         this.plotProgress = 30;
-        this.showDialogue(`あなたは慎重に箱を開ける。中には黒い石が入っており、かすかに紫の光を放っている。これが闇の神器に違いない！`, [
+        this.showDialogue(`あなたは慎重に箱を開ける。中には黒い石が入っており、かすかに紫の光を放っている。これが暗黒の神器に違いない！`, [
             { text: `神器を拾う`, action: () => this.obtainDarkArtifact() }
         ]);
     }
 
-    // 闇の神器を入手
+    // 暗黒の神器を入手
     obtainDarkArtifact() {
         this.plotProgress = 31;
-        if (!this.game.gameState.inventory.includes(`闇の神器`)) {
-            this.game.gameState.inventory.push(`闇の神器`);
+        if (!this.game.gameState.inventory.includes(`暗黒の神器`)) {
+            this.game.gameState.inventory.push(`暗黒の神器`);
             this.game.updateInventoryDisplay();
         }
-        this.showDialogue(`あなたは闇の神器を手に取ると、突然、強力な力が体内に流れ込むのを感じる。しかしその時、背後から足音が聞こえてきた...`, [
+        this.showDialogue(`あなたは暗黒の神器を手に取ると、突然、強力な力が体内に流れ込むのを感じる。しかしその時、背後から足音が聞こえてきた...`, [
             { text: `振り返って確認する`, action: () => this.turnAroundInCemetery() }
         ]);
     }
@@ -397,7 +397,7 @@ class Chapter4 {
         const friendName = this.getFriendName();
         const pronounSub = this.getFriendPronoun(`subject`);
         this.playSound(`horror`);
-        this.showDialogue(`振り返ると、${friendName}がいた！しかし${pronounSub}の目は虚ろで、体から黒い霧が立ち込めている。${pronounSub}は一歩一歩近づき、あなたの手にある闇の神器を奪おうと手を伸ばしてくる。`, [
+        this.showDialogue(`振り返ると、${friendName}がいた！しかし${pronounSub}の目は虚ろで、体から黒い霧が立ち込めている。${pronounSub}は一歩一歩近づき、あなたの手にある暗黒の神器を奪おうと手を伸ばしてくる。`, [
             { text: `神器をしっかり抱える`, action: () => this.holdArtifactTight() },
             { text: `覚醒させようとする`, action: () => this.attemptToWakeFriendInCemetery() }
         ]);
@@ -408,13 +408,13 @@ class Chapter4 {
         this.plotProgress = 33;
         const friendName = this.getFriendName();
         const pronounSub = this.getFriendPronoun(`subject`);
-        // インベントリから闇の神器を削除
-        const artifactIndex = this.game.gameState.inventory.indexOf(`闇の神器`);
+        // インベントリから暗黒の神器を削除
+        const artifactIndex = this.game.gameState.inventory.indexOf(`暗黒の神器`);
         if (artifactIndex > -1) {
             this.game.gameState.inventory.splice(artifactIndex, 1);
             this.game.updateInventoryDisplay();
         }
-        this.showDialogue(`${friendName}の力は驚くほど強く、${pronounSub}は一気にあなたの手から闇の神器を奪い取った。${pronounSub}は冷たい笑い声を上げ、学校の方へ走り去った。`, [
+        this.showDialogue(`${friendName}の力は驚くほど強く、${pronounSub}は一気にあなたの手から暗黒の神器を奪い取った。${pronounSub}は冷たい笑い声を上げ、学校の方へ走り去った。`, [
             { text: `追いかける`, action: () => this.chaseFriendToSchool() }
         ]);
     }
@@ -425,13 +425,13 @@ class Chapter4 {
         const friendName = this.getFriendName();
         const pronounObj = this.getFriendPronoun(`object`);
         const pronounSub = this.getFriendPronoun(`subject`);
-        // インベントリから闇の神器を削除
-        const artifactIndex = this.game.gameState.inventory.indexOf(`闇の神器`);
+        // インベントリから暗黒の神器を削除
+        const artifactIndex = this.game.gameState.inventory.indexOf(`暗黒の神器`);
         if (artifactIndex > -1) {
             this.game.gameState.inventory.splice(artifactIndex, 1);
             this.game.updateInventoryDisplay();
         }
-        this.showDialogue(`"${friendName}！目を覚ませ！私だよ！"あなたは大声で呼びかける。しかし${pronounSub}は聞こえていないようで、${pronounSub}はあなたの手から闇の神器を奪い取った。${pronounSub}は冷たい笑い声を上げ、学校の方へ走り去った。`, [
+        this.showDialogue(`"${friendName}！目を覚ませ！私だよ！"あなたは大声で呼びかける。しかし${pronounSub}は聞こえていないようで、${pronounSub}はあなたの手から暗黒の神器を奪い取った。${pronounSub}は冷たい笑い声を上げ、学校の方へ走り去った。`, [
             { text: `追いかける`, action: () => this.chaseFriendToSchool() }
         ]);
     }
@@ -524,7 +524,7 @@ class Chapter4 {
 
     readMore() {
         this.plotProgress = 22;
-        this.showDialogue(`...しかし闇の神器は数百年も行方不明だ。森に持ち込まれたと言う者もいれば、学校の地下に埋められたと言う者もいる...`, [
+        this.showDialogue(`...しかし暗黒の神器は数百年も行方不明だ。森に持ち込まれたと言う者もいれば、学校の地下に埋められたと言う者もいる...`, [
             { text: `本を閉じる`, action: () => this.loadScene(`forestPath`) }
         ]);
     }
@@ -572,7 +572,7 @@ class Chapter4 {
 
     continueReadingDiary() {
         this.plotProgress = 25;
-        this.showDialogue(`"あのものはますます強力になっている。私は闇の神器を見つけなければならない。さもなければすべてが手遅れになる..."日記はここで終わっており、後のページは破り取られている。`, [
+        this.showDialogue(`"あのものはますます強力になっている。私は暗黒の神器を見つけなければならない。さもなければすべてが手遅れになる..."日記はここで終わっており、後のページは破り取られている。`, [
             { text: `日記を置く`, action: () => this.loadScene(`abandonedHouse`) }
         ]);
     }
@@ -640,7 +640,7 @@ class Chapter4 {
         if (abnormalGenders.includes(this.game.gameState.playerGender)) {
             return Math.random() < 0.5 ? `ワンワン` : `ニャンニャン`;
         }
-        return this.game.gameState.playerGender === "male" ? "張偉" : "李娜";
+        return this.game.gameState.playerGender === "male" ? "佐藤韦" : "李娜";
     }
 
     // ゲーム時間を更新
@@ -688,7 +688,7 @@ class Chapter4 {
         const friendName = this.getFriendName();
         const pronounSub = this.getFriendPronoun(`subject`);
         this.playSound(`horror`);
-        this.showDialogue(`あなたはドアを押して中に入る。部屋は暗く、蝋燭立て一つがかすかな光を放っているだけだ。${friendName}はあなたに背を向け、部屋の中央にある奇妙な模様の上に立っている。${pronounSub}は闇の神器を手にし、何かを低声で唱えている。`, [
+        this.showDialogue(`あなたはドアを押して中に入る。部屋は暗く、蝋燭立て一つがかすかな光を放っているだけだ。${friendName}はあなたに背を向け、部屋の中央にある奇妙な模様の上に立っている。${pronounSub}は暗黒の神器を手にし、何かを低声で唱えている。`, [
             { text: `${friendName}の邪魔をする`, action: () => this.interruptFriend() },
             { text: `ゆっくり後退する`, action: () => this.slowlyBackAway() }
         ]);
@@ -699,7 +699,7 @@ class Chapter4 {
         this.plotProgress = 38;
         const friendName = this.getFriendName();
         this.playSound(`horror`);
-        this.showDialogue(`あなたはドアのそばに寄り、中の様子を盗み聞きする。"ついに...闇の神器...私のものだ..."${friendName}の声が聞こえる。"これがあれば、学校全体を...いや、世界全体を支配できる..."`, [
+        this.showDialogue(`あなたはドアのそばに寄り、中の様子を盗み聞きする。"ついに...暗黒の神器...私のものだ..."${friendName}の声が聞こえる。"これがあれば、学校全体を...いや、世界全体を支配できる..."`, [
             { text: `ドアを押して入る`, action: () => this.enterRoom() },
             { text: `他の入口を探す`, action: () => this.lookForOtherEntrance() }
         ]);
@@ -718,10 +718,10 @@ class Chapter4 {
             this.showDialogue(`ははは...ちょうど良く来たな、${this.game.gameState.playerName}。`);
 
             setTimeout(() => {
-                this.showDialogue(`${friendName}はゆっくりと振り返り、${pronounSub}の目は不気味に赤く光り、口元には邪悪な微笑みを浮かべている。手にした闇の神器は黒い霧を放ち、${pronounSub}の腕に絡みついている。`);
+                this.showDialogue(`${friendName}はゆっくりと振り返り、${pronounSub}の目は不気味に赤く光り、口元には邪悪な微笑みを浮かべている。手にした暗黒の神器は黒い霧を放ち、${pronounSub}の腕に絡みついている。`);
 
                 setTimeout(() => {
-                    this.showDialogue(`${friendName}は闇の神器を掲げ、あなたを指す："さあ、${this.game.gameState.playerName}、闇の一部となれ！"`, [
+                    this.showDialogue(`${friendName}は暗黒の神器を掲げ、あなたを指す："さあ、${this.game.gameState.playerName}、闇の一部となれ！"`, [
                         { text: `${friendName}を説得しようとする`, action: () => this.attemptToConvinceFriend() },
                         { text: `神器を奪おうとする`, action: () => this.attemptToGrabArtifact() },
                         { text: `回避して武器を探す`, action: () => this.dodgeAndFindWeapon() }
@@ -748,7 +748,7 @@ class Chapter4 {
         const friendName = this.getFriendName();
         const pronounSub = this.getFriendPronoun(`subject`);
         this.playSound(`horror`);
-        this.showDialogue(`${friendName}の表情に少し動揺が見えたが、すぐに邪悪な笑顔に戻る。"友達？それは何だ？闇の力こそが全てだ！"${pronounSub}は叫びながら、闇の神器を振りかざしてあなたに襲いかかる。`, [
+        this.showDialogue(`${friendName}の表情に少し動揺が見えたが、すぐに邪悪な笑顔に戻る。"友達？それは何だ？闇の力こそが全てだ！"${pronounSub}は叫びながら、暗黒の神器を振りかざしてあなたに襲いかかる。`, [
             { text: `回避する`, action: () => this.dodgeAttack() },
             { text: `ブロックを試みる`, action: () => this.attemptToBlock() }
         ]);
@@ -760,7 +760,7 @@ class Chapter4 {
         const friendName = this.getFriendName();
         const pronounSub = this.getFriendPronoun(`subject`);
         this.playSound(`ding`);
-        this.showDialogue(`あなたは${friendName}に突進し、${pronounSub}の手から闇の神器を奪おうとする。${friendName}は素早く反応し、身をかわしてあなたの攻撃を避け、同時に闇の神器であなたの肩を打つ。激しい痛みを感じ、あなたは地面に倒れる。`, [
+        this.showDialogue(`あなたは${friendName}に突進し、${pronounSub}の手から暗黒の神器を奪おうとする。${friendName}は素早く反応し、身をかわしてあなたの攻撃を避け、同時に暗黒の神器であなたの肩を打つ。激しい痛みを感じ、あなたは地面に倒れる。`, [
             { text: `もがきながら立ち上がる`, action: () => this.standUp() },
             { text: `死んだふりをして機会を待つ`, action: () => this.pretendToBeDead() }
         ]);
@@ -771,7 +771,7 @@ class Chapter4 {
         this.plotProgress = 43;
         const friendName = this.getFriendName();
         this.playSound(`ding`);
-        this.showDialogue(`あなたは素早く横に飛び退き、闇の神器の攻撃をかわす。周囲を見回すと、部屋の隅に錆びた鉄の棒があるのを見つける。`, [
+        this.showDialogue(`あなたは素早く横に飛び退き、暗黒の神器の攻撃をかわす。周囲を見回すと、部屋の隅に錆びた鉄の棒があるのを見つける。`, [
             { text: `鉄の棒を拾って防御する`, action: () => this.takeIronRod() },
             { text: `回避を続ける`, action: () => this.continueDodging() }
         ]);
@@ -794,7 +794,7 @@ class Chapter4 {
         const friendName = this.getFriendName();
         const pronounSub = this.getFriendPronoun(`subject`);
         this.playSound(`ding`);
-        this.showDialogue(`あなたは腕で${friendName}の攻撃をブロックしようとするが、${pronounSub}の力は想像以上に強い。闇の神器があなたの腕に当たり、痺れを感じる。`, [
+        this.showDialogue(`あなたは腕で${friendName}の攻撃をブロックしようとするが、${pronounSub}の力は想像以上に強い。暗黒の神器があなたの腕に当たり、痺れを感じる。`, [
             { text: `よろめきながら後退する`, action: () => this.staggerBack() },
             { text: `機会を捉えて反撃する`, action: () => this.counterAttack() }
         ]);
@@ -817,7 +817,7 @@ class Chapter4 {
         const friendName = this.getFriendName();
         const pronounSub = this.getFriendPronoun(`subject`);
         this.playSound(`horror`);
-        this.showDialogue(`あなたは息を殺し、気絶したふりをする。${friendName}はあなたのそばに来て、闇の神器であなたをつつく。あなたが"気絶"したと確認すると、${pronounSub}は振り返って部屋の奥へ歩いていく："儀式が終わったら、お前が最初の生贄だ。"`, [
+        this.showDialogue(`あなたは息を殺し、気絶したふりをする。${friendName}はあなたのそばに来て、暗黒の神器であなたをつつく。あなたが"気絶"したと確認すると、${pronounSub}は振り返って部屋の奥へ歩いていく："儀式が終わったら、お前が最初の生贄だ。"`, [
             { text: `こっそり後をつける`, action: () => this.sneakFollow() },
             { text: `隙に神器を奪う`, action: () => this.stealArtifact() }
         ]);
@@ -851,7 +851,7 @@ class Chapter4 {
         const friendName = this.getFriendName();
         const pronounSub = this.getFriendPronoun(`subject`);
         this.playSound(`ding`);
-        this.showDialogue(`${friendName}の攻撃に隙ができた！あなたは機会を捉え、${pronounSub}に突進し、闇の神器を奪おうとする。`, [
+        this.showDialogue(`${friendName}の攻撃に隙ができた！あなたは機会を捉え、${pronounSub}に突進し、暗黒の神器を奪おうとする。`, [
             { text: `全力で奪取する`, action: () => this.fullForceGrab() },
             { text: `陽動で${friendName}の注意を逸らす`, action: () => this.feintAttack() }
         ]);
@@ -863,7 +863,7 @@ class Chapter4 {
         const friendName = this.getFriendName();
         const pronounSub = this.getFriendPronoun(`subject`);
         this.playSound(`ding`);
-        this.showDialogue(`あなたは全身の力を振り絞り、${friendName}に猛然と飛びかかり、両手で${pronounSub}の手にある闇の神器を掴む。${friendName}は驚くが、すぐに反応し、神器を奪い合う。`, [
+        this.showDialogue(`あなたは全身の力を振り絞り、${friendName}に猛然と飛びかかり、両手で${pronounSub}の手にある暗黒の神器を掴む。${friendName}は驚くが、すぐに反応し、神器を奪い合う。`, [
             { text: `奪い合いを続ける`, action: () => this.keepGrabbing() },
             { text: `足をかけて${friendName}を転ばせる`, action: () => this.tripFriend() }
         ]);
@@ -875,7 +875,7 @@ class Chapter4 {
         const friendName = this.getFriendName();
         const pronounSub = this.getFriendPronoun(`subject`);
         this.playSound(`ding`);
-        this.showDialogue(`あなたは${friendName}の頭部を攻撃するふりをして、${pronounSub}の注意を引く。${friendName}が手を上げて防御した瞬間、素早く手を伸ばして${pronounSub}の手にある闇の神器を奪おうとする。`, [
+        this.showDialogue(`あなたは${friendName}の頭部を攻撃するふりをして、${pronounSub}の注意を引く。${friendName}が手を上げて防御した瞬間、素早く手を伸ばして${pronounSub}の手にある暗黒の神器を奪おうとする。`, [
             { text: `隙に神器を奪う`, action: () => this.sneakGrabArtifact() },
             { text: `再度陽動する`, action: () => this.feintAgain() }
         ]);
@@ -886,7 +886,7 @@ class Chapter4 {
         this.plotProgress = 503;
         const friendName = this.getFriendName();
         this.playSound(`horrorUp`);
-        this.showDialogue(`あなたと${friendName}は激しく闇の神器を奪い合う。神器は強烈な黒い光を放ち、二人の手は火傷するが、どちらも手放そうとしない。`, [
+        this.showDialogue(`あなたと${friendName}は激しく暗黒の神器を奪い合う。神器は強烈な黒い光を放ち、二人の手は火傷するが、どちらも手放そうとしない。`, [
             { text: `持ちこたえる`, action: () => this.holdOn() },
             { text: `手放して後退する`, action: () => this.letGoAndBack() }
         ]);
@@ -897,7 +897,7 @@ class Chapter4 {
         this.plotProgress = 504;
         const friendName = this.getFriendName();
         this.playSound(`ding`);
-        this.showDialogue(`あなたは${friendName}が油断した隙に、足をかけて${friendName}を転ばせる。${friendName}はバランスを失い地面に倒れ、手から闇の神器が離れる。`, [
+        this.showDialogue(`あなたは${friendName}が油断した隙に、足をかけて${friendName}を転ばせる。${friendName}はバランスを失い地面に倒れ、手から暗黒の神器が離れる。`, [
             { text: `神器を拾う`, action: () => this.pickUpArtifact() },
             { text: `${friendName}の状態を確認する`, action: () => this.checkFriendCondition() }
         ]);
@@ -920,7 +920,7 @@ class Chapter4 {
         this.plotProgress = 506;
         const friendName = this.getFriendName();
         this.playSound(`horrorUp`);
-        this.showDialogue(`あなたは歯を食いしばり、手放さないように耐える。闇の神器の光はますます強くなり、激しい痛みを感じるが、それでも手を離さない。`, [
+        this.showDialogue(`あなたは歯を食いしばり、手放さないように耐える。暗黒の神器の光はますます強くなり、激しい痛みを感じるが、それでも手を離さない。`, [
             { text: `持ちこたえ続ける`, action: () => this.continueHolding() },
             { text: `刻印の指輪を使う`, action: () => this.useEngravedRing() }
         ]);
@@ -942,7 +942,7 @@ class Chapter4 {
         this.plotProgress = 508;
         const friendName = this.getFriendName();
         this.playSound(`ding`);
-        this.showDialogue(`あなたは素早く地面の闇の神器を拾う。${friendName}は立ち上がろうともがいているが、明らかに傷を負っており、すぐには立てない。`, [
+        this.showDialogue(`あなたは素早く地面の暗黒の神器を拾う。${friendName}は立ち上がろうともがいているが、明らかに傷を負っており、すぐには立てない。`, [
             { text: `部屋を出る`, action: () => this.attemptToEscape() },
             { text: `${friendName}を助ける`, action: () => this.helpFriend() }
         ]);
@@ -964,7 +964,7 @@ class Chapter4 {
         this.plotProgress = 510;
         const friendName = this.getFriendName();
         this.playSound(`horrorUp`);
-        this.showDialogue(`あなたは持ちこたえ続け、指は闇の神器の光で火傷しているが、それでも手放さない。突然、神器が強烈な光を放ち、あなたと${friendName}を吹き飛ばす。`, [
+        this.showDialogue(`あなたは持ちこたえ続け、指は暗黒の神器の光で火傷しているが、それでも手放さない。突然、神器が強烈な光を放ち、あなたと${friendName}を吹き飛ばす。`, [
             { text: `${friendName}の状態を確認する`, action: () => this.checkFriendCondition() },
             { text: `再度神器を奪おうとする`, action: () => this.attemptToGrabArtifact() }
         ]);
@@ -976,7 +976,7 @@ class Chapter4 {
         const friendName = this.getFriendName();
         this.playSound(`ding`);
         if (this.game.gameState.inventory.includes(`刻印の指輪`)) {
-            this.showDialogue(`あなたは手にある刻印の指輪を思い出し、すぐにそれを指にはめる。指輪は柔らかな光を放ち、闇の神器の力を一部相殺する。${friendName}は影響を受けたようで、手を離す。`, [
+            this.showDialogue(`あなたは手にある刻印の指輪を思い出し、すぐにそれを指にはめる。指輪は柔らかな光を放ち、暗黒の神器の力を一部相殺する。${friendName}は影響を受けたようで、手を離す。`, [
                 { text: `神器を拾う`, action: () => this.pickUpArtifact() }
             ]);
         } else {
@@ -1025,7 +1025,7 @@ class Chapter4 {
         this.plotProgress = 515;
         const friendName = this.getFriendName();
         this.playSound(`ding`);
-        this.showDialogue(`あなたと${friendName}は闇の神器の処理方法について話し合う。${friendName}は神器を封印し、これ以上他者に危害を加えないようにすることを提案する。あなたたちはまずここを離れ、それから神器の処理方法を考えることにした。`, [
+        this.showDialogue(`あなたと${friendName}は暗黒の神器の処理方法について話し合う。${friendName}は神器を封印し、これ以上他者に危害を加えないようにすることを提案する。あなたたちはまずここを離れ、それから神器の処理方法を考えることにした。`, [
             { text: `${friendName}を連れて去る`, action: () => this.leaveWithFriend() }
         ]);
     }
@@ -1059,7 +1059,7 @@ class Chapter4 {
         const friendName = this.getFriendName();
         const pronounSub = this.getFriendPronoun(`subject`);
         this.playSound(`horror`);
-        this.showDialogue(`あなたは${friendName}の手にある闇の神器をじっと見つめ、奪う機会を探す。${pronounSub}はあなたの意図に気づいたようで、神器をより強く握りしめる。`, [
+        this.showDialogue(`あなたは${friendName}の手にある暗黒の神器をじっと見つめ、奪う機会を探す。${pronounSub}はあなたの意図に気づいたようで、神器をより強く握りしめる。`, [
             { text: `${friendName}が油断した隙に奪う`, action: () => this.sneakGrabArtifact() },
             { text: `まず${friendName}の腕を攻撃する`, action: () => this.attackArm() }
         ]);
@@ -1071,7 +1071,7 @@ class Chapter4 {
         const friendName = this.getFriendName();
         const pronounSub = this.getFriendPronoun(`subject`);
         this.playSound(`horror`);
-        this.showDialogue(`あなたはこっそり${friendName}の後をつけ、部屋の奥へ進む。${pronounSub}は巨大な魔法陣の中央に立ち、長い呪文を唱え始める。闇の神器は魔法陣の上に浮かび、強烈な黒い光を放っている。`, [
+        this.showDialogue(`あなたはこっそり${friendName}の後をつけ、部屋の奥へ進む。${pronounSub}は巨大な魔法陣の中央に立ち、長い呪文を唱え始める。暗黒の神器は魔法陣の上に浮かび、強烈な黒い光を放っている。`, [
             { text: `儀式が完了する前に邪魔する`, action: () => this.interruptRitual() },
             { text: `観察して弱点を探す`, action: () => this.observeWeakness() }
         ]);
@@ -1200,7 +1200,7 @@ class Chapter4 {
         const friendName = this.getFriendName();
         const pronounSub = this.getFriendPronoun(`subject`);
         this.playSound(`ding`);
-        this.showDialogue(`あなたは突然飛び起き、${friendName}に突進し、${pronounSub}の手から闇の神器を奪おうとする。${friendName}は反応が遅れ、神器はあなたの手に渡る。しかし${friendName}はすぐにあなたの手首を掴み、狂ったように神器を取り戻そうとする。`, [
+        this.showDialogue(`あなたは突然飛び起き、${friendName}に突進し、${pronounSub}の手から暗黒の神器を奪おうとする。${friendName}は反応が遅れ、神器はあなたの手に渡る。しかし${friendName}はすぐにあなたの手首を掴み、狂ったように神器を取り戻そうとする。`, [
             { text: `力ずくで振りほどく`, action: () => this.forceEscape() },
             { text: `神器で${friendName}を攻撃する`, action: () => this.attackWithArtifact() }
         ]);
@@ -1223,7 +1223,7 @@ class Chapter4 {
         const friendName = this.getFriendName();
         const pronounObj = this.getFriendPronoun(`object`);
         this.playSound(`horrorUp`);
-        this.showDialogue(`あなたは闇の神器を掲げ、${friendName}に向かって振りかざす。しかし神器は突然黒い光を放ち、あなたはめまいを感じる。意識が戻った時、${friendName}が地面に倒れており、${pronounObj}の体は黒い霧に包まれている。`, [
+        this.showDialogue(`あなたは暗黒の神器を掲げ、${friendName}に向かって振りかざす。しかし神器は突然黒い光を放ち、あなたはめまいを感じる。意識が戻った時、${friendName}が地面に倒れており、${pronounObj}の体は黒い霧に包まれている。`, [
             { text: `${friendName}の状態を確認する`, action: () => this.checkFriendCondition() },
             { text: `部屋から逃げる`, action: () => this.attemptToEscape() }
         ]);
@@ -1235,7 +1235,7 @@ class Chapter4 {
         const friendName = this.getFriendName();
         const pronounSub = this.getFriendPronoun(`subject`);
         this.playSound(`ding`);
-        this.showDialogue(`あなたは鉄の棒を振り回し、${friendName}に向かって打ち下ろす。${pronounSub}は闇の神器であなたの攻撃を防ぎ、鉄の棒と神器がぶつかって耳障りな金属音を立てる。`, [
+        this.showDialogue(`あなたは鉄の棒を振り回し、${friendName}に向かって打ち下ろす。${pronounSub}は暗黒の神器であなたの攻撃を防ぎ、鉄の棒と神器がぶつかって耳障りな金属音を立てる。`, [
             { text: `攻撃を続ける`, action: () => this.continueAttackingWithRod() },
             { text: `隙を探す`, action: () => this.lookForWeakSpot() }
         ]);
@@ -1246,7 +1246,7 @@ class Chapter4 {
         this.plotProgress = 57;
         const friendName = this.getFriendName();
         this.playSound(`horror`);
-        this.showDialogue(`あなたは防御姿勢を維持し、${friendName}の攻撃に隙ができるのを待つ。${friendName}は絶え間なく闇の神器を振り回してあなたを攻撃し、${friendName}の息は次第に荒くなる。`, [
+        this.showDialogue(`あなたは防御姿勢を維持し、${friendName}の攻撃に隙ができるのを待つ。${friendName}は絶え間なく暗黒の神器を振り回してあなたを攻撃し、${friendName}の息は次第に荒くなる。`, [
             { text: `反撃の機会を探す`, action: () => this.lookForCounterAttack() },
             { text: `${friendName}を説得しようとする`, action: () => this.attemptToConvinceFriend() }
         ]);
@@ -1360,7 +1360,7 @@ class Chapter4 {
         this.plotProgress = 590;
         const friendName = this.getFriendName();
         this.playSound(`horrorUp`);
-        this.showDialogue(`あなたは深く息を吸い、学校へ走り戻る。${friendName}を置き去りにはできない。先ほどの部屋に戻ると、${friendName}が頭を抱えてしゃがみ込んでおり、闇の神器は跡形もなく消えている。`, [
+        this.showDialogue(`あなたは深く息を吸い、学校へ走り戻る。${friendName}を置き去りにはできない。先ほどの部屋に戻ると、${friendName}が頭を抱えてしゃがみ込んでおり、暗黒の神器は跡形もなく消えている。`, [
             { text: `${friendName}に神器の行方を尋ねる`, action: () => this.askAboutArtifact() },
             { text: `${friendName}を連れて去る`, action: () => this.leaveWithFriend() }
         ]);
@@ -1394,7 +1394,7 @@ class Chapter4 {
         this.plotProgress = 63;
         const friendName = this.getFriendName();
         this.playSound(`horror`);
-        this.showDialogue(`あなたは${friendName}を支え、ゆっくり部屋を出る。闇の神器は依然として部屋の中央で黒い光を放っているが、あなたにはそれに対処する力も残っていない。あなたたちはよろめきながら学校后勤区域を抜け、学校の廊下に戻る。`, [
+        this.showDialogue(`あなたは${friendName}を支え、ゆっくり部屋を出る。暗黒の神器は依然として部屋の中央で黒い光を放っているが、あなたにはそれに対処する力も残っていない。あなたたちはよろめきながら学校后勤区域を抜け、学校の廊下に戻る。`, [
             { text: `保健室へ向かう`, action: () => this.goToInfirmary() },
             { text: `警察に通報する`, action: () => this.callPolice() }
         ]);
@@ -1434,7 +1434,7 @@ class Chapter4 {
         this.plotProgress = 67;
         const friendName = this.getFriendName();
         this.playSound(`horror`);
-        this.showDialogue(`あなたと${friendName}は保健室でしばらく休む。${friendName}の精神状態はだいぶ良くなったが、あなたたちは皆、この事件がまだ終わっていないことを知っている。闇の神器は依然として学校の中にあり、次の犠牲者を待ち構えている。`, [
+        this.showDialogue(`あなたと${friendName}は保健室でしばらく休む。${friendName}の精神状態はだいぶ良くなったが、あなたたちは皆、この事件がまだ終わっていないことを知っている。暗黒の神器は依然として学校の中にあり、次の犠牲者を待ち構えている。`, [
             { text: `第四章を終了する`, action: () => this.completeChapter() }
         ]);
     }
@@ -1478,8 +1478,8 @@ class Chapter4 {
         const endingDescription = document.createElement('div');
         endingDescription.className = 'ending-description';
         endingDescription.innerHTML = `
-            <p>あなたは闇の神器に操られた友達の手から無事脱出し、友達の意識を回復させる手助けをしました。</p>
-            <p>闇の神器は依然として存在しますが、あなたは友情の力が闇に打ち勝つことを証明しました。</p>
+            <p>あなたは暗黒の神器に操られた友達の手から無事脱出し、友達の意識を回復させる手助けをしました。</p>
+            <p>暗黒の神器は依然として存在しますが、あなたは友情の力が闇に打ち勝つことを証明しました。</p>
             <p>しかし、これは単なる始まりに過ぎません...より強大な闇の力があなたを待ち受けています...</p>
         `;
 

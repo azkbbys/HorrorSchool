@@ -128,7 +128,7 @@ class Chapter2 {
     }
 
     checkNoticeBoard() {
-        this.showDialogue('掲示板には閉鎖通知の他に、一張の人物探索掲示が貼られている：「行方不明学生李明を探す、最後に確認された時刻：10月13日夜」。掲示の下には手書きの小さな文字が：「影を信じるな」。', [
+        this.showDialogue('掲示板には閉鎖通知の他に、一張の人物探索掲示が貼られている：「行方不明学生山本明を探す、最後に確認された時刻：10月13日夜」。掲示の下には手書きの小さな文字が：「影を信じるな」。', [
             { text: '学校に入る', action: () => this.enterSchool() },
             { text: '写真に記録', action: () => this.takePhoto() }
         ]);
@@ -160,7 +160,7 @@ class Chapter2 {
             } else {
                 const isMale = this.game.gameState.playerGender === 'male';
                 this.friendGender = isMale ? 'male' : 'female';
-                this.friendName = isMale ? '張偉' : '李娜';
+                this.friendName = isMale ? '佐藤韦' : '中村娜';
             }
             this.friendMet = true;
 
@@ -178,7 +178,7 @@ class Chapter2 {
     }
 
     checkFriendDesk() {
-        this.showDialogue(`あなたは机の前に歩み寄る。教科書は『心理学入門』のあるページで開かれている。そこには鉛筆で一部が丸で囲まれている：「恐怖は人類の最も原始的な感情の一つであり、最も操作されやすい感情でもある。」
+        this.showDialogue(`あなたは机の前に歩み寄る。教科書は『心理学概論』のあるページで開かれている。そこには鉛筆で一部が丸で囲まれている：「恐怖は人類の最も原始的な感情の一つであり、最も操作されやすい感情でもある。」
 机の上には一枚の付箋があり、走り書きされている：「彼らは私たちを監視している。誰も信じるな。」`, [
             { text: '付箋をしまう', action: () => this.takeNote() },
             { text: '寮を出る', action: () => this.enterSchool() }

@@ -128,7 +128,7 @@ class Chapter2 {
     }
 
     checkNoticeBoard() {
-        this.showDialogue('Besides the closure notice, there is also a missing person notice on the bulletin board: "Looking for missing student Li Ming, last seen: October 13th evening." Below the notice, there is a line of handwritten text: "Don\'t trust the shadows."', [
+        this.showDialogue('Besides the closure notice, there is also a missing person notice on the bulletin board: "Looking for missing student Harry, last seen: October 13th evening." Below the notice, there is a line of handwritten text: "Don\'t trust the shadows."', [
             { text: 'Enter School', action: () => this.enterSchool() },
             { text: 'Take Photo', action: () => this.takePhoto() }
         ]);
@@ -160,7 +160,7 @@ class Chapter2 {
             } else {
                 const isMale = this.game.gameState.playerGender === 'male';
                 this.friendGender = isMale ? 'male' : 'female';
-                this.friendName = isMale ? 'Zhang Wei' : 'Li Na';
+                this.friendName = isMale ? 'Jack' : 'Anna';
             }
             this.friendMet = true;
 

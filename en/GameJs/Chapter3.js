@@ -52,7 +52,7 @@ class Chapter3 {
         if (abnormalGenders.includes(this.game.gameState.playerGender)) {
             return Math.random() < 0.5 ? 'Woof Woof' : 'Meow Meow';
         }
-        return this.game.gameState.playerGender === "male" ? "Zhang Wei" : "Li Na";
+        return this.game.gameState.playerGender === "male" ? "Jack" : "Anna";
     }
 
     // Typewriter effect for dialogue display

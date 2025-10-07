@@ -52,7 +52,7 @@ class Chapter3 {
         if (abnormalGenders.includes(this.game.gameState.playerGender)) {
             return Math.random() < 0.5 ? 'ワンワン' : 'ニャンニャン';
         }
-        return this.game.gameState.playerGender === "male" ? "張偉" : "李娜";
+        return this.game.gameState.playerGender === "male" ? "佐藤韦" : "中村娜";
     }
 
     // 打字机效果显示对话
@@ -420,7 +420,7 @@ ${friendName}はゆっくりと目を開け、目つきは正常に戻った：�
     showAltarRoomScene() {
         this.game.gameState.currentScene = 'altarRoom';
         this.game.updateGameMap('altarRoom');
-        this.showDialogue(`あなたは巨大な地下祭壇の部屋に来た。中央の祭壇には一人の人間が縛り付けられており、まさに${this.game.gameState.playerGender === "male" ? "張偉" : "李娜"}だ！黒いローブを着た人物が祭壇の前に立ち、手には短剣を持っている。
+        this.showDialogue(`あなたは巨大な地下祭壇の部屋に来た。中央の祭壇には一人の人間が縛り付けられており、まさに${this.game.gameState.playerGender === "male" ? "佐藤韦" : "中村娜"}だ！黒いローブを着た人物が祭壇の前に立ち、手には短剣を持っている。
 「ついに生贄を捧げる時が来た！」黒ローブの人物はしわがれた笑い声をあげる。`, [
             { text: '生贄を阻止する', action: () => this.stopSacrifice() },
             { text: '武器を探す', action: () => this.findWeapon() }
@@ -430,7 +430,7 @@ ${friendName}はゆっくりと目を開け、目つきは正常に戻った：�
     stopSacrifice() {
         if (this.game.gameState.inventory.includes('儀式の短剣')) {
             this.showDialogue(`あなたは黒ローブの人物に突進し、短剣で${this.game.gameState.playerGender === "male" ? "彼" : "彼女"}を刺す。黒ローブの人物は悲鳴をあげ、一筋の黒い煙と化す。
-${this.game.gameState.playerGender === "male" ? "張偉" : "李娜"}は地面に倒れ、意識を失う。祭壇は崩壊し始め、部屋全体が崩れ落ちそうになる。`, [
+${this.game.gameState.playerGender === "male" ? "佐藤韦" : "中村娜"}は地面に倒れ、意識を失う。祭壇は崩壊し始め、部屋全体が崩れ落ちそうになる。`, [
                 { text: `${this.getFriendPronoun('object')}を連れて逃げる`, action: () => this.escapeWithFriend() },
                 { text: '出口を探す', action: () => this.findExit() }
             ]);
@@ -590,7 +590,7 @@ ${this.game.gameState.playerGender === "male" ? "張偉" : "李娜"}は地面に
     useBadgeAgainstCultist() {
         if (this.game.gameState.inventory.includes('バッジ')) {
             this.showDialogue(`バッジを取り出すと、バッジは強い光を放つ。黒ローブの人物は悲鳴をあげ、一筋の黒い煙と化す。
-${this.game.gameState.playerGender === "male" ? "張偉" : "李娜"}は地面に倒れ、意識を失う。祭壇は崩壊し始め、部屋全体が崩れ落ちそうになる。`, [
+${this.game.gameState.playerGender === "male" ? "佐藤韦" : "中村娜"}は地面に倒れ、意識を失う。祭壇は崩壊し始め、部屋全体が崩れ落ちそうになる。`, [
                 { text: `${this.getFriendPronoun('object')}を連れて逃げる`, action: () => this.escapeWithFriend() },
                 { text: '出口を探す', action: () => this.findExit() }
             ]);
@@ -603,8 +603,8 @@ ${this.game.gameState.playerGender === "male" ? "張偉" : "李娜"}は地面に
 
     escapeWithFriend() {
         this.friendSaved = true;
-        this.showDialogue(`あなたは${this.game.gameState.playerGender === "male" ? "張偉" : "李娜"}を背負い、祭壇が崩壊する前に出口を見つける。あなたたちは学校から逃げ出すが、空は依然として真っ暗で、黎明の兆しはまったくない。
-${this.game.gameState.playerGender === "male" ? "張偉" : "李娜"}はゆっくりと目を覚ますが、目は虚ろだ：「ありがとう…しかしすべてはまだ終わっていない…」
+        this.showDialogue(`あなたは${this.game.gameState.playerGender === "male" ? "佐藤韦" : "中村娜"}を背負い、祭壇が崩壊する前に出口を見つける。あなたたちは学校から逃げ出すが、空は依然として真っ暗で、黎明の兆しはまったくない。
+${this.game.gameState.playerGender === "male" ? "佐藤韦" : "中村娜"}はゆっくりと目を覚ますが、目は虚ろだ：「ありがとう…しかしすべてはまだ終わっていない…」
 うつむくと、${this.game.gameState.playerGender === "male" ? "彼" : "彼女"}の首に、学校のバッジと同じ記号が浮かび上がっているのがわかる。あなたは呪いが永遠に終わらないことを知っている。`, [
             { text: '第三章を完了する', action: () => this.completeChapter() }
         ]);
@@ -619,7 +619,7 @@ ${this.game.gameState.playerGender === "male" ? "張偉" : "李娜"}はゆっく
     }
 
     continueWakingFriend() {
-        const friendName = this.game.gameState.playerGender === "male" ? "張偉" : "李娜";
+        const friendName = this.game.gameState.playerGender === "male" ? "佐藤韦" : "中村娜";
         this.showDialogue(`${friendName}の体はさらに激しく震える：「友達…そうだ…私たちは友達だ…」
 黒い影が${this.game.gameState.playerGender === "male" ? "彼" : "彼女"}の体内からゆっくりと漂い出て、夜の闇に消える。
 ${friendName}は地面に倒れ、意識を失う。`, [
@@ -631,13 +631,13 @@ ${friendName}は地面に倒れ、意識を失う。`, [
 
     leaveWithFriend() {
         this.friendSaved = true;
-        this.showDialogue(`あなたは${this.game.gameState.playerGender === "male" ? "張偉" : "李娜"}を背負い、学校を離れる。空は依然として真っ暗で、黎明の兆しはまったくない。${this.game.gameState.playerGender === "male" ? "張偉" : "李娜"}の体はどんどん冷たくなり、あなたは、あるものは永遠に変わってしまったことを知る…`, [
+        this.showDialogue(`あなたは${this.game.gameState.playerGender === "male" ? "佐藤韦" : "中村娜"}を背負い、学校を離れる。空は依然として真っ暗で、黎明の兆しはまったくない。${this.game.gameState.playerGender === "male" ? "佐藤韦" : "中村娜"}の体はどんどん冷たくなり、あなたは、あるものは永遠に変わってしまったことを知る…`, [
             { text: '第三章を完了する', action: () => this.completeChapter() }
         ]);
     }
 
     exploreWithFriend() {
-        const friendName = this.game.gameState.playerGender === 'male' ? '張偉' : '李娜';
+        const friendName = this.game.gameState.playerGender === 'male' ? '佐藤韦' : '中村娜';
         this.showDialogue(`${friendName}はまだ少し弱っているが、それでもあなたと一緒に学校を探索することを決める：「真実を見つけ出さなければならない、さもなければさらに多くの人が被害に遭う。」`, [
             { text: '旧校舎へ向かう', action: () => this.loadScene('abandonedWing') },
             { text: '地下迷路へ向かう', action: () => this.loadScene('labyrinth') }
